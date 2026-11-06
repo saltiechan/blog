@@ -10,15 +10,22 @@ $this->title = 'My Yii Application';
 
 
     <div class="body-content">
-	<?php
-	foreach($data as $row){
-		echo Html::tag('h1', $row->title);
-		echo Html::tag('p',Html::tag('small', $row->username . ' ' . $row->date));
-		echo $row->content;
-		echo '<hr/>';	
-	}
-	
-	?>
+    <?php foreach ($data as $row): ?>
+        <div class="article-item">
+            <h1><?= Html::encode($row->title) ?></h1>
 
-    </div>
+            <p>
+                <small>
+                    <?= Html::encode($row->username . ' ' . $row->date) ?>
+                </small>
+            </p>
+
+            <div class="article-content">
+                <?= $row->content ?>
+            </div>
+
+            <hr>
+        </div>
+    <?php endforeach; ?>
+</div>
 </div>

@@ -10,7 +10,7 @@ class m180201_230521_init_db extends Migration
     /**
      * @inheritdoc
      */
-    public function safeUp()
+    public function Up()
     {
 	$this->execute("
 CREATE TABLE IF NOT EXISTS `account` (
@@ -42,7 +42,7 @@ ENGINE = InnoDB;
     /**
      * @inheritdoc
      */
-    public function safeDown()
+    public function Down()
     {
         echo "m180201_230521_init_db cannot be reverted.\n";
 

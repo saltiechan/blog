@@ -24,12 +24,17 @@ class AccountController extends Controller
 	'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
-                    [
-                        'actions' => ['index', 'create', 'update', 'delete', 'view'],
-                        'allow' => true,
-                        'roles' => ['admin'],
-                    ],
+                [
+                    'actions' => ['index', 'create', 'update', 'delete', 'view'],
+                    'allow' => true,
+                    'roles' => ['Admin'],
                 ],
+                [
+                    'actions' => ['profile'],
+                    'allow' => true,
+                    'roles' => ['@'],
+                ],
+            ],
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -78,17 +83,25 @@ class AccountController extends Controller
         $model = new Account();
 
         if ($model->load(Yii::$app->request->post())) {
-		$role = \Yii::$app->authManager->getRole(strtolower($model->role));
-           	\Yii::$app->authManager->revokeAll($model->username);
-             	\Yii::$app->authManager->assign($role, $model->username);
-		$model->password = md5($model->password);
-		if($model->save()){
-            		return $this->redirect(['view', 'id' => $model->username]);
-		}
+
+            $role = Yii::$app->authManager->getRole($model->role);
+
+            if ($role === null) {
+                $model->addError('role', 'Role tidak valid.');
+            } else {
+                $model->password = Yii::$app->security->generatePasswordHash($model->password);
+
+                if ($model->save()) {
+                    Yii::$app->authManager->revokeAll($model->username);
+                    Yii::$app->authManager->assign($role, $model->username);
+
+                    return $this->redirect(['view', 'id' => $model->username]);
+                }
+            }
         }
 
         return $this->render('create', [
-            'model' => $model,
+        'model' => $model,
         ]);
     }
 
@@ -102,19 +115,31 @@ class AccountController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $oldPassword = $model->password;
 
         if ($model->load(Yii::$app->request->post())) {
-		$role = \Yii::$app->authManager->getRole(strtolower($model->role));
-                \Yii::$app->authManager->revokeAll($model->username);
-                \Yii::$app->authManager->assign($role, $model->username);
-		$model->password = md5($model->password);
 
-                if($model->save()){
-            		return $this->redirect(['view', 'id' => $model->username]);
-		}
+            $role = Yii::$app->authManager->getRole($model->role);
+
+            if ($role === null) {
+                $model->addError('role', 'Role tidak valid.');
+            } else {
+                if (empty($model->password)) {
+                $model->password = $oldPassword;
+                } else {
+                    $model->password = Yii::$app->security->generatePasswordHash($model->password);
+                }
+
+                if ($model->save()) {
+                    Yii::$app->authManager->revokeAll($model->username);
+                    Yii::$app->authManager->assign($role, $model->username);
+
+                    return $this->redirect(['view', 'id' => $model->username]);
+                }
+            }
         }
-	
-	$model->password = null;
+
+        $model->password = null;
 
         return $this->render('update', [
             'model' => $model,
@@ -135,6 +160,18 @@ class AccountController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionProfile()
+    {
+    $model = Account::findOne(Yii::$app->user->identity->username);
+
+        if ($model === null) {
+            throw new NotFoundHttpException('Account not found.');
+        }
+
+    return $this->render('profile', [
+        'model' => $model,
+    ]);
+    }
     /**
      * Finds the Account model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

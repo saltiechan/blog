@@ -50,6 +50,8 @@ class Post extends \yii\db\ActiveRecord
             'content' => 'Content',
             'date' => 'Date',
             'username' => 'Username',
+            'status' => 'Status',
+            'rejection_reason' => 'Alasan Penolakan',
         ];
     }
 
