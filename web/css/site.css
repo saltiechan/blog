@@ -107,6 +107,7 @@ a.desc:after {
 
 .nav > li > form > button.logout:focus,
 .nav > li > form > button.logout:hover {
+    color: #242424;
     text-decoration: none;
 }
 
@@ -124,4 +125,137 @@ a.desc:after {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     line-clamp: 3;
+}
+
+.navbar-inverse {
+    background-color: #FFFFFF;
+    border-color: #E6E6E6;
+}
+
+.navbar-inverse .navbar-brand,
+.navbar-inverse .navbar-nav > li > a {
+    color: #242424;
+}
+
+.navbar-inverse .navbar-brand:hover,
+.navbar-inverse .navbar-nav > li > a:hover {
+    color: #1A8917;
+}
+
+.navbar-inverse .navbar-toggle {
+    border-color: #DDDDDD;
+}
+
+.navbar-inverse .navbar-toggle .icon-bar {
+    background-color: #242424;
+}
+
+.btn-primary {
+    background-color: #1A8917;
+    border-color: #1A8917;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #146C12;
+    border-color: #146C12;
+}
+
+a {
+    color: #1A8917;
+}
+
+a:hover,
+a:focus {
+    color: #146C12;
+}
+.site-index {
+    color: #242424;
+    background-color: #FFFFFF;
+}
+
+.site-index h1,
+.site-index h2,
+.site-index h3 {
+    color: #242424;
+}
+
+.site-index p {
+    color: #555555;
+}
+
+.site-index hr {
+    border-top-color: #E6E6E6;
+}
+
+.article-item {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #E6E6E6;
+}
+
+.article-item h1,
+.article-item h2,
+.article-item h3 {
+    color: #242424;
+}
+
+.article-content {
+    color: #333333;
+}
+
+.article-meta {
+    color: #888888;
+}
+
+.article-author {
+    color: #242424;
+}
+
+.article-title a {
+    color: #242424;
+}
+
+.article-title a:hover {
+    color: #1A8917;
+}
+
+.article-excerpt {
+    color: #666666;
+}
+
+.read-more {
+    color: #1A8917;
+}
+
+.read-more:hover {
+    color: #146C12;
+}
+
+.post-view {
+    background-color: #FFFFFF;
+    color: #242424;
+}
+
+.post-view h1,
+.post-view h2,
+.post-view h3 {
+    color: #242424;
+}
+
+.post-view .post-meta {
+    color: #888888;
+}
+
+.post-view .post-content {
+    color: #333333;
+}
+
+.empty-articles {
+    background-color: #FAFAFA;
+    border: 1px solid #EEEEEE;
+    color: #777777;
+}
+
+.empty-articles h3 {
+    color: #242424;
 }
